@@ -1,0 +1,20 @@
+(1) Add camel spring ws related dependencies to consume soap service
+
+(2) Add camel xStream dependency to parse response
+
+(3) Add SoapConfig bean and configure then update from and to route values in application.yml, using spring-ws component
+
+(4) Add country domain to unmarshall response to java object
+
+(5) Added soapFaultExceptionProcessor for SoapFaultClientException.class, WebServiceTransportException.class, ConnectException.class
+
+     /*
+      * SoapFaultClientException - in case unexpected input
+      * WebserviceTransportException - Wrong URL
+      * ConnectException - When server is down
+      * */
+
+(6) Add mock test for service not available, service exception (I/O connection error) for wrong input (soap fault), and for wrong url (404 not found)
+
+
+

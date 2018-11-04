@@ -1,0 +1,127 @@
+spring:
+  profiles:
+    active: dev
+camel:
+  springboot:
+    shutdownTimeout: 1
+    health.indicator.enabled: true
+management.security.enabled: false
+
+info.app.name: Spring boiler plate
+info.app.description: This is a Spring boot boiler plate code.
+info.app.version: 1.0.0
+
+---
+
+spring:
+  profiles: mock
+  datasourceConnInfo:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/localdb
+    username: postgres
+    password: postgres
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: <<InsertUserID>>
+    password: <<InsertPassword>>
+    properties.mail.smtp.auth:  true
+    properties.mail.smtp.starttls.enable: true
+
+mail.smtp.starttls.enable: true
+
+mailTo: <<InsertSenderGmailID>>
+mailFrom: <<InsertReceiverID>>
+
+message: Hello from MOCK Profile
+fromRoute: direct:input
+toRoute: spring-ws:http://localhost:8091/soap-ws/?webServiceTemplate=#CountryWSTemplate
+healthRoute: direct:healthinput
+tojdbcRoute: direct:output
+
+---
+
+spring:
+  profiles: dev
+  datasourceConnInfo:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/localdb
+      username: postgres
+      password: postgres
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: <<InsertUserID>>
+    password: <<InsertPassword>>
+    properties.mail.smtp.auth:  true
+    properties.mail.smtp.starttls.enable: true
+
+mailTo: <<InsertSenderGmailID>>
+mailFrom: <<InsertReceiverID>>
+
+message: Hello from DEV Profile
+fromRoute: timer:WSApplication?period=10s
+toRoute: spring-ws:http://localhost:8091/soap-ws/country?webServiceTemplate=#CountryWSTemplate
+tojdbcRoute: jdbc:myDataSource
+healthRoute: timer:health?period=10s
+
+
+---
+
+spring:
+  profiles: stage
+  datasourceConnInfo:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/localDB
+    username: postgres
+    password: postgres
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: <<InsertUserID>>
+    password: <<InsertPassword>>
+    properties.mail.smtp.auth:  true
+    properties.mail.smtp.starttls.enable: true
+
+mailTo: <<InsertSenderGmailID>>
+mailFrom: <<InsertReceiverID>>
+
+message:    Hello from STAGE Profile
+
+
+fromRoute: timer:WSApplication?period=10s
+toRoute: spring-ws:http://localhost:8091/soap-ws/country?webServiceTemplate=#CountryWSTemplate
+tojdbcRoute: jdbc:myDataSource
+healthRoute: timer:health?period=10s
+
+
+---
+
+spring:
+  profiles: prod
+  datasourceConnInfo:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/localDB
+    username: postgres
+    password: postgres
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: <<InsertUserID>>
+    password: <<InsertPassword>>
+    properties.mail.smtp.auth:  true
+    properties.mail.smtp.starttls.enable: true
+
+mailTo: <<InsertSenderGmailID>>
+mailFrom: <<InsertReceiverID>>
+
+
+message:    Hello from PROD Profile
+
+fromRoute: timer:WSApplication?period=10s
+toRoute: spring-ws:http://localhost:8091/soap-ws/country?webServiceTemplate=#CountryWSTemplate
+tojdbcRoute: jdbc:myDataSource
+healthRoute: timer:health?period=10s
+
+
+---
